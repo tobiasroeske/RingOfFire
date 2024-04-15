@@ -1,0 +1,30 @@
+@import '../../styles.scss';
+
+
+.start-screen {
+    width: 100vw;
+    height: 100vh;
+    background-color: #404040;
+    max-width: 100%;
+    @include dflex();
+    >img {
+        width: 100%;
+        height: 100vh;
+        max-width: 1024px;
+    }
+}
+
+.start-label-box {
+    cursor: pointer;
+    position: absolute;
+    bottom: 50px;
+    @include dflex();
+    >img {
+        width: 40vh;
+        height: auto;
+
+        &:hover {
+            filter: brightness(1.25);
+        }
+    }
+}
