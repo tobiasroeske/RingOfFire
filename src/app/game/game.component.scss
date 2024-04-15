@@ -1,50 +1,64 @@
-@import '../../styles.scss';
+@import "../../styles.scss";
 
 .field {
-    width: 100vw;
-    height: 100vh;
-    max-width: 100%;
-    background-image: url('../../assets/img/board.jpg');
-    background-size: cover;
-    @include dflex();
+  width: 100vw;
+  height: 100vh;
+  max-width: 100%;
+  background-image: url("../../assets/img/board.jpg");
+  background-size: cover;
+  @include dflex();
+}
+
+.player-container {
+    position: absolute;
+    right: 0;
+    top: 64px;
+    @include dflex($fd: column, $g: 16px)
 }
 
 .card-stack {
-    position: relative;
-    >img {
-        width: 120px;
-        position: absolute;
-    }
+  position: relative;
+  > img {
+    width: 120px;
+    position: absolute;
+  }
 }
 
 .top-card {
-    cursor: pointer;
-    transition: all 0.125s ease-in-out;
-    &:hover {
-        transform: scale(1.1) translateY(-10px);
-    }
+  cursor: pointer;
+  transition: all 0.125s ease-in-out;
+  &:hover {
+    transform: scale(1.1) translateY(-10px);
+  }
 }
 
 .pick-card {
-    animation: pick-card-animation 1s ease-in-out;
-    transform: scale(1.3) translateX(140px) translateY(-180px) rotate(-10deg);
+  animation: pick-card-animation 1s ease-in-out;
+  transform: scale(1.3) translateX(140px) translateY(-180px) rotate(-10deg);
 }
 
 .played-card {
-    transform: scale(1.3) translateX(20px) translateY(-180px) rotate(-10deg);
+  right: 20px;
+  transform: scale(1.3) translateX(140px) translateY(-180px) rotate(-10deg);
 }
 
-@keyframes pick-card-animation{
-    0% {
-        transform: scale(1);
-    }
-    40% {
-        transform: scale(1.7);
-    }
-    60% {
-        transform: scale(1.7);
-    }
-    100% {
-        transform: scale(1.3) translateX(140px) translateY(-180px) rotate(-10deg);
-    }
+@keyframes pick-card-animation {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.7);
+  }
+  60% {
+    transform: scale(1.7);
+  }
+  100% {
+    transform: scale(1.3) translateX(140px) translateY(-180px) rotate(-10deg);
+  }
+}
+
+.btn-add {
+    position: absolute;
+    right: 32px;
+    bottom: 32px;
 }
