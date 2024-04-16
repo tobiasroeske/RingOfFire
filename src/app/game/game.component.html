@@ -1,10 +1,9 @@
 <div class="player-container">
     @for (player of game.players; track player; let i = $index) {
-    <app-profile [playerName]="player"></app-profile>
+        
+    <app-profile [playerName]="player" [playerActive]="i == game.currentPlayer"></app-profile>
     }
 </div>
-
-
 
 
 <div class="field">
@@ -27,3 +26,5 @@
 <button mat-fab color="primary" class="btn-add" (click)="openDialog()">
     <mat-icon>add</mat-icon>
   </button>
+
+<app-game-info class="pin-bottom" [card]="currentCard" ></app-game-info>

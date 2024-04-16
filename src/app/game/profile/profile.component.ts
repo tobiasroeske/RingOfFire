@@ -10,4 +10,5 @@ import { Component, Input} from '@angular/core';
 })
 export class ProfileComponent {
  @Input() playerName!: string;
+ @Input() playerActive: boolean = false;
 }

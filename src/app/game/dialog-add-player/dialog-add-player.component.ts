@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
   MatDialogTitle,
   MatDialogContent,
   MatDialogActions,
@@ -10,19 +12,27 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { DialogRef } from '@angular/cdk/dialog';
+import { CommonModule } from '@angular/common';
+
+export interface DialogData {
+  animal: string;
+  name: string;
+}
 
 @Component({
   selector: 'app-dialog-add-player',
   standalone: true,
   imports: [
-    MatDialogContent,
-    FormsModule,
-    MatInputModule,
+    CommonModule,
     MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatDialogTitle,
+    MatDialogContent,
     MatDialogActions,
     MatDialogClose,
-    MatDialogTitle,
-    MatButtonModule,
   ],
   templateUrl: './dialog-add-player.component.html',
   styleUrl: './dialog-add-player.component.scss',
@@ -30,10 +40,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 export class DialogAddPlayerComponent {
   name: string = '';
 
-  constructor(public dialog: MatDialog) {
-
-  }
-  onNoClick() {
-
+  constructor(
+    public dialogRef: MatDialogRef<DialogAddPlayerComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
+  ) {}
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }
