@@ -28,15 +28,19 @@ export class GameComponent {
   }
 
   takeCard() {
-    if (this.game.stack.length > 0 && !this.pickCardAnimation) {
+    if (this.game.stack.length > 0 && !this.pickCardAnimation && this.game.players.length > 0) {
       this.currentCard = this.game.stack.pop()!;
       this.pickCardAnimation = true;
+      setTimeout(() => {
+        this.game.playedCards.push(this.currentCard);
+        this.pickCardAnimation = false;
+        this.changeActivePlayer();
+      }, 1000);
+    } else if(this.game.players.length == 0) {
+      console.log('Please add player');
+      this.openDialog();
     }
-    setTimeout(() => {
-      this.game.playedCards.push(this.currentCard);
-      this.pickCardAnimation = false;
-      this.changeActivePlayer();
-    }, 1000);
+    
   }
 
   changeActivePlayer() {
