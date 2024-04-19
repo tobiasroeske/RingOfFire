@@ -1,23 +1,26 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { Game } from '../../models/game';
+import { GameService } from '../firebase-services/game.service';
 
 @Component({
   selector: 'app-start-screen',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './start-screen.component.html',
-  styleUrl: './start-screen.component.scss'
+  styleUrl: './start-screen.component.scss',
 })
 export class StartScreenComponent {
-
-  // constructor(private router: Router) {
-
-  // }
+  public gameID!: string;
+  constructor(private gameService: GameService, public router: Router) {}
 
   offset = -130;
   newGame() {
-    window.open('game', '_self');
-    // this.router.navigateByUrl('game');
+    let game = new Game();
+    this.gameService.addGame(game.toJson());
+    this.gameID = this.gameService.getGameId();
+    this.router.navigateByUrl('/game/' + this.gameID);
+    
   }
 }
