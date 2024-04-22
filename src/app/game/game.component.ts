@@ -31,14 +31,14 @@ export class GameComponent {
   pickCardAnimation = false;
 
   constructor(public dialog: MatDialog, private gameService: GameService, private route: ActivatedRoute) {
-    this.gamesList = this.gameService.getGamesList()
+    
   }
 
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       let gameId = params['id'];
-      
+      this.gamesList = this.gameService.getGamesList();
       console.log(this.gamesList);
       
       // this.gameService.games.forEach((singleGame:any) => {
