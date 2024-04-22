@@ -36,6 +36,7 @@ export class GameComponent {
 
 
   ngOnInit(): void {
+    this.newGame();
     this.route.params.subscribe(params => {
       let gameId = params['id'];
       this.gamesList = this.gameService.getGamesList();
@@ -54,6 +55,10 @@ export class GameComponent {
       //   }
       // })
     })
+  }
+
+  newGame() {
+    this.game = new Game;
   }
 
   // newGame() {
