@@ -4,4 +4,6 @@ export interface SingleGame {
     stack: string[],
     playedCards: string [],
     currentPlayer: number, 
+    currentCard: string,
+    pickCardAnimation: boolean
 }

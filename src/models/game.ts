@@ -1,4 +1,5 @@
-import { SingleGame } from "../app/interfaces/Singlegame.interface";
+import { SingleGame } from "../app/interfaces/singleGame.interface";
+
 
 
 export class Game implements SingleGame{
@@ -7,6 +8,8 @@ export class Game implements SingleGame{
     public stack: string[] = [];
     public playedCards: string[] = [];
     public currentPlayer: number = 0;
+    public currentCard: string = ''
+    public pickCardAnimation: boolean = false;
     constructor() {
         for (let i = 1; i < 14; i++) {
             this.stack.push('spade_' + i);
@@ -22,7 +25,9 @@ export class Game implements SingleGame{
             players: this.players,
             stack: this.stack,
             playedCards: this.playedCards,
-            currentPlayer: this.currentPlayer
+            currentPlayer: this.currentPlayer,
+            currentCard: this.currentCard,
+            pickCardAnimation: this.pickCardAnimation
         }
     }
 }

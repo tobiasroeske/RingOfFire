@@ -1,5 +1,5 @@
-import { Injectable, inject } from '@angular/core'
-import { SingleGame } from '../interfaces/Singlegame.interface';
+import { Injectable, OnDestroy, OnInit, inject } from '@angular/core'
+import { SingleGame } from '../interfaces/singleGame.interface';
 import {
   DocumentReference,
   Firestore,
@@ -18,10 +18,11 @@ import { ActivatedRoute } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
-export class GameService {
+export class GameService implements OnDestroy{
   firestore: Firestore = inject(Firestore);
-  public games: SingleGame[] = [];
+  games: SingleGame[] = [];
   unsubGames;
+  unsubSingleGames: any;
   singleGame!: SingleGame;
   gameId:string = '';
 
@@ -32,6 +33,7 @@ export class GameService {
 
   ngOnDestroy(): void {
     this.unsubGames();
+    this.unsubSingleGames();
   }
 
   unsubGamesList() {
@@ -41,16 +43,16 @@ export class GameService {
         let newGame =  (this.setGameObject(element.data(), element.id));
         this.games.push(newGame);
       });
-      console.log(this.games);
     });
   }
 
-  unsubSingleGame(id: any, singleGame: any) {
-    onSnapshot(doc(this.getGamesRef(), id), (game) => {
+  unsubSingleGame(id: any) {
+    let unsub =  onSnapshot(doc(this.getGamesRef(), id), (game) => {
+      this.singleGame = this.getCleanJson(game.data())
       
-      singleGame = this.getCleanJson(game.data())
-      console.log('spiel wurde aktualisiert', singleGame);
+      console.log('spiel wurde aktualisiert', this.singleGame)
     })
+    this.unsubSingleGames = unsub;
   }
 
   async updateGame(game: SingleGame) {
@@ -67,6 +69,8 @@ export class GameService {
       stack: game.stack,
       playedCards: game.playedCards,
       currentPlayer: game.currentPlayer,
+      currentCard: game.currentCard,
+      pickCardAnimation: game.pickCardAnimation
     }
   }
 
@@ -76,7 +80,6 @@ export class GameService {
     if(docSnap.exists()) {
 
       this.singleGame = this.setGameObject(docSnap.data(), id)
-      console.log(this.singleGame);
       
     } else {
       console.log('no such document');
@@ -94,7 +97,9 @@ export class GameService {
       players: obj.players || [],
       stack: obj.stack || [],
       playedCards: obj.playedCards || [],
-      currentPlayer: obj.currentPlayer || 0
+      currentPlayer: obj.currentPlayer || 0,
+      currentCard: obj.currentCard,
+      pickCardAnimation: obj.pickCardAnimation
     }
   }
 
