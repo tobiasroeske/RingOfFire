@@ -19,8 +19,10 @@ export class StartScreenComponent {
   newGame() {
     let game = new Game();
     this.gameService.addGame(game.toJson());
-    this.gameID = this.gameService.getGameId();
-    this.router.navigateByUrl('/game/' + this.gameID);
+    this.gameID = this.gameService.games[this.gameService.games.length - 1]['id'];
+    console.log(this.gameID);
     
+    this.router.navigateByUrl('/game/' + this.gameID);
+
   }
 }
