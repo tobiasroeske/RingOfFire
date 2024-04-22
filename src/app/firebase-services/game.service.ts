@@ -5,6 +5,7 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   onSnapshot,
   setDoc,
 } from '@angular/fire/firestore';
@@ -41,6 +42,33 @@ export class GameService {
     });
   }
 
+  async getSingleGameById(id: string) {
+    let docRef = doc(this.firestore, 'games', id)
+    let docSnap = await getDoc(docRef);
+    if(docSnap.exists()) {
+
+      this.singleGame = this.setGameObject(docSnap.data(), id)
+      console.log(this.singleGame);
+      
+      
+    } else {
+      console.log('no such document');
+      
+    }
+  }
+
+  getGameById(id: string, newGame: any) {
+    this.games.forEach((singleGame: any) => {
+      if (singleGame['id'] == id) {
+        newGame.id = singleGame.id;
+        newGame.players = singleGame.players;
+        newGame.stack = singleGame.stack;
+        newGame.playedCards = singleGame.playedCards;
+        newGame.currentPlayer = singleGame.currentPlayer;
+      }
+    })
+  }
+
   getGamesList() {
     return this.games;
   }
@@ -58,16 +86,6 @@ export class GameService {
   async addGame(game: {}) {
     await addDoc(this.getGamesRef(), game)
       .catch((err) => console.error(err));
-  }
-
-  setNewGameRef() {
-    let newGameRef = doc(this.getGamesRef());
-    return newGameRef;
-  }
-
-  getGameId() {
-    let gameInfo = this.setNewGameRef();
-    return gameInfo.id;
   }
 
   getGamesRef() {

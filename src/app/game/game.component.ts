@@ -39,33 +39,17 @@ export class GameComponent {
     this.newGame();
     this.route.params.subscribe(params => {
       let gameId = params['id'];
-      this.gamesList = this.gameService.getGamesList();
-      console.log(this.gamesList);
-      
-      // this.gameService.games.forEach((singleGame:any) => {
-      //  console.log(singleGame)
-      //   if (singleGame.id == gameId) {
-      //     console.log('klappt')
-          
-      //     this.game.id = singleGame.id;
-      //     this.game.players = singleGame.players;
-      //     this.game.stack = singleGame.stack;
-      //     this.game.playedCards = singleGame.playedCards;
-      //     this.game.currentPlayer = singleGame.currentPlayer;
-      //   }
-      // })
+
+      this.gameService.getSingleGameById(gameId);
+      this.game = this.gameService.singleGame
+      // this.gameService.getGameById(gameId, this.game);
+      console.log(this.game);
     })
   }
 
   newGame() {
     this.game = new Game;
   }
-
-  // newGame() {
-  //   this.game = new Game;
-  //   // let gameAsJson = this.game.toJson();
-  //   // this.gameService.addGame(gameAsJson);
-  // }
 
   takeCard() {
     if (

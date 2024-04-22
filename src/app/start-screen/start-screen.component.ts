@@ -16,12 +16,11 @@ export class StartScreenComponent {
   constructor(private gameService: GameService, public router: Router) {}
 
   offset = -130;
-  newGame() {
+  async newGame() {
     let game = new Game();
-    this.gameService.addGame(game.toJson());
-    this.gameID = this.gameService.games[this.gameService.games.length - 1]['id'];
+    await this.gameService.addGame(game.toJson());
+    this.gameID = this.gameService.games[0]['id'];
     console.log(this.gameID);
-    
     this.router.navigateByUrl('/game/' + this.gameID);
 
   }
