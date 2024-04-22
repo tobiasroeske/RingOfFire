@@ -45,6 +45,14 @@ export class GameService {
     });
   }
 
+  unsubSingleGame(id: any, singleGame: any) {
+    onSnapshot(doc(this.getGamesRef(), id), (game) => {
+      
+      singleGame = this.getCleanJson(game.data())
+      console.log('spiel wurde aktualisiert', singleGame);
+    })
+  }
+
   async updateGame(game: SingleGame) {
     if (game.id) {
       let docRef = this.getSingleGameRef('games', game.id)
@@ -52,7 +60,7 @@ export class GameService {
     }
   }
 
-  getCleanJson(game: SingleGame) {
+  getCleanJson(game: any) {
     return  {
       id: game.id,
       players: game.players,

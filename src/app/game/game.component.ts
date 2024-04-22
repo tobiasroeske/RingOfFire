@@ -11,6 +11,7 @@ import { GameService } from '../firebase-services/game.service';
 import { StartScreenComponent } from '../start-screen/start-screen.component';
 import { ActivatedRoute } from '@angular/router';
 import { SingleGame } from '../interfaces/Singlegame.interface';
+import { Firestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-game',
@@ -32,23 +33,29 @@ export class GameComponent {
   pickCardAnimation = false;
   gameId: string = '';
 
-  constructor(public dialog: MatDialog, private gameService: GameService, private route: ActivatedRoute) {
-    
-  }
-
+  constructor(
+    public dialog: MatDialog,
+    private gameService: GameService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.newGame();
   }
 
   async newGame() {
-    this.game = new Game;
-    
-    this.route.params.subscribe(params => {
+    this.game = new Game();
+
+    this.route.params.subscribe((params) => {
       this.gameId = params['id'];
     })
     await this.gameService.getSingleGameById(this.gameId);
-      this.game = this.gameService.singleGame
+    this.game = this.gameService.singleGame;
+    this.gameService.unsubSingleGame(this.gameId, this.game);
+  }
+
+  getGame() {
+    return this.game;
   }
 
   takeCard() {
@@ -84,7 +91,7 @@ export class GameComponent {
     dialogRef.afterClosed().subscribe((name) => {
       if (name && name.length > 0) {
         this.game.players.push(name);
-        this.saveGame()
+        this.saveGame();
       }
     });
   }
