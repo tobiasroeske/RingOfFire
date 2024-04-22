@@ -34,7 +34,7 @@ export class GameService {
     return onSnapshot(this.getGamesRef(), (list) => {
       this.games = [];
       list.forEach((element) => {
-        let newGame =  (this.setGameObject(element, element.id));
+        let newGame =  (this.setGameObject(element.data(), element.id));
         this.games.push(newGame);
       });
       console.log(this.games);
