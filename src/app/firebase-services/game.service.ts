@@ -30,10 +30,6 @@ export class GameService {
     this.unsubGames();
   }
 
-  getGameIdFromUrl() {
-    this.route.params.subscribe((params) => console.log(params['id']));
-  }
-
   unsubGamesList() {
     return onSnapshot(this.getGamesRef(), (list) => {
       this.games = [];
@@ -43,8 +39,10 @@ export class GameService {
       });
       console.log(this.games);
     });
-    
-    
+  }
+
+  getGamesList() {
+    return this.games;
   }
 
   setGameObject(obj:any, id:string) {
@@ -55,13 +53,6 @@ export class GameService {
       playedCards: obj.playedCards,
       currentPlayer: obj.currentPlayer
     }
-  }
-
-  getSingleGame() {
-    onSnapshot(this.getSingleGameRef('games', this.getGameId()), game => {
-      this.singleGame = game.data();
-    })
-    return this.singleGame;
   }
 
   async addGame(game: {}) {

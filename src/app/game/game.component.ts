@@ -26,17 +26,33 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class GameComponent {
   game!: Game;
+  gamesList: [] = [];
   currentCard: string = '';
   pickCardAnimation = false;
 
   constructor(public dialog: MatDialog, private gameService: GameService, private route: ActivatedRoute) {
+    this.gamesList = this.gameService.getGamesList()
   }
+
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       let gameId = params['id'];
-      console.log(this.gameService.games);
       
+      console.log(this.gamesList);
+      
+      // this.gameService.games.forEach((singleGame:any) => {
+      //  console.log(singleGame)
+      //   if (singleGame.id == gameId) {
+      //     console.log('klappt')
+          
+      //     this.game.id = singleGame.id;
+      //     this.game.players = singleGame.players;
+      //     this.game.stack = singleGame.stack;
+      //     this.game.playedCards = singleGame.playedCards;
+      //     this.game.currentPlayer = singleGame.currentPlayer;
+      //   }
+      // })
     })
   }
 
