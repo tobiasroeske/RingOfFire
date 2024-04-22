@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { DialogRef } from '@angular/cdk/dialog';
 import { CommonModule } from '@angular/common';
+import { GameService } from '../../firebase-services/game.service';
 
 export interface DialogData {
   animal: string;
@@ -41,9 +42,11 @@ export class DialogAddPlayerComponent {
   name: string = '';
 
   constructor(
+    private gameService: GameService,
     public dialogRef: MatDialogRef<DialogAddPlayerComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {}
+
   onNoClick(): void {
     this.dialogRef.close();
   }

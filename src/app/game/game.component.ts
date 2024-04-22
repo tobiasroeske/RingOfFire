@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, SimpleChanges } from '@angular/core';
 import { Game } from '../../models/game';
 import { ProfileComponent } from './profile/profile.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,6 +10,7 @@ import { GameInfoComponent } from '../game-info/game-info.component';
 import { GameService } from '../firebase-services/game.service';
 import { StartScreenComponent } from '../start-screen/start-screen.component';
 import { ActivatedRoute } from '@angular/router';
+import { SingleGame } from '../interfaces/Singlegame.interface';
 
 @Component({
   selector: 'app-game',
@@ -25,10 +26,11 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './game.component.scss',
 })
 export class GameComponent {
-  game!: Game;
+  game!: SingleGame;
   gamesList: [] = [];
   currentCard: string = '';
   pickCardAnimation = false;
+  gameId: string = '';
 
   constructor(public dialog: MatDialog, private gameService: GameService, private route: ActivatedRoute) {
     
@@ -37,18 +39,16 @@ export class GameComponent {
 
   ngOnInit(): void {
     this.newGame();
-    this.route.params.subscribe(params => {
-      let gameId = params['id'];
-
-      this.gameService.getSingleGameById(gameId);
-      this.game = this.gameService.singleGame
-      // this.gameService.getGameById(gameId, this.game);
-      console.log(this.game);
-    })
   }
 
-  newGame() {
+  async newGame() {
     this.game = new Game;
+    
+    this.route.params.subscribe(params => {
+      this.gameId = params['id'];
+    })
+    await this.gameService.getSingleGameById(this.gameId);
+      this.game = this.gameService.singleGame
   }
 
   takeCard() {
@@ -59,10 +59,12 @@ export class GameComponent {
     ) {
       this.currentCard = this.game.stack.pop()!;
       this.pickCardAnimation = true;
+      this.saveGame();
       setTimeout(() => {
         this.game.playedCards.push(this.currentCard);
         this.pickCardAnimation = false;
         this.changeActivePlayer();
+        this.saveGame();
       }, 1000);
     } else if (this.game.players.length == 0) {
       console.log('Please add player');
@@ -82,7 +84,12 @@ export class GameComponent {
     dialogRef.afterClosed().subscribe((name) => {
       if (name && name.length > 0) {
         this.game.players.push(name);
+        this.saveGame()
       }
     });
+  }
+
+  async saveGame() {
+    await this.gameService.updateGame(this.game);
   }
 }

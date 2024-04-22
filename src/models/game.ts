@@ -1,4 +1,7 @@
-export class Game {
+import { SingleGame } from "../app/interfaces/Singlegame.interface";
+
+
+export class Game implements SingleGame{
     public id?: string;
     public players: string[] = [];
     public stack: string[] = [];

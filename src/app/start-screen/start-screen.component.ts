@@ -19,8 +19,7 @@ export class StartScreenComponent {
   async newGame() {
     let game = new Game();
     await this.gameService.addGame(game.toJson());
-    this.gameID = this.gameService.games[0]['id'];
-    console.log(this.gameID);
+    this.gameID = this.gameService.gameId;
     this.router.navigateByUrl('/game/' + this.gameID);
 
   }

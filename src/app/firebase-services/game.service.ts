@@ -1,4 +1,5 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core'
+import { SingleGame } from '../interfaces/Singlegame.interface';
 import {
   DocumentReference,
   Firestore,
@@ -8,6 +9,7 @@ import {
   getDoc,
   onSnapshot,
   setDoc,
+  updateDoc,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Game } from '../../models/game';
@@ -18,9 +20,10 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class GameService {
   firestore: Firestore = inject(Firestore);
-  public games:any = [];
+  public games: SingleGame[] = [];
   unsubGames;
-  singleGame: any;
+  singleGame!: SingleGame;
+  gameId:string = '';
 
 
   constructor(private route: ActivatedRoute) {
@@ -42,6 +45,23 @@ export class GameService {
     });
   }
 
+  async updateGame(game: SingleGame) {
+    if (game.id) {
+      let docRef = this.getSingleGameRef('games', game.id)
+      await updateDoc(docRef, this.getCleanJson(game));
+    }
+  }
+
+  getCleanJson(game: SingleGame) {
+    return  {
+      id: game.id,
+      players: game.players,
+      stack: game.stack,
+      playedCards: game.playedCards,
+      currentPlayer: game.currentPlayer,
+    }
+  }
+
   async getSingleGameById(id: string) {
     let docRef = doc(this.firestore, 'games', id)
     let docSnap = await getDoc(docRef);
@@ -50,23 +70,10 @@ export class GameService {
       this.singleGame = this.setGameObject(docSnap.data(), id)
       console.log(this.singleGame);
       
-      
     } else {
       console.log('no such document');
       
     }
-  }
-
-  getGameById(id: string, newGame: any) {
-    this.games.forEach((singleGame: any) => {
-      if (singleGame['id'] == id) {
-        newGame.id = singleGame.id;
-        newGame.players = singleGame.players;
-        newGame.stack = singleGame.stack;
-        newGame.playedCards = singleGame.playedCards;
-        newGame.currentPlayer = singleGame.currentPlayer;
-      }
-    })
   }
 
   getGamesList() {
@@ -75,17 +82,24 @@ export class GameService {
 
   setGameObject(obj:any, id:string) {
     return {
-      id: id,
-      players: obj.players,
-      stack: obj.stack,
-      playedCards: obj.playedCards,
-      currentPlayer: obj.currentPlayer
+      id: id || '',
+      players: obj.players || [],
+      stack: obj.stack || [],
+      playedCards: obj.playedCards || [],
+      currentPlayer: obj.currentPlayer || 0
     }
   }
 
   async addGame(game: {}) {
     await addDoc(this.getGamesRef(), game)
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .then((docRef) => {
+        if( docRef?.id) {
+          this.gameId = docRef?.id
+        }
+      })
+      console.log(this.gameId);
+      
   }
 
   getGamesRef() {
