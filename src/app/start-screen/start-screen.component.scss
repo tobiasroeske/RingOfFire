@@ -6,6 +6,7 @@
   background-color: #404040;
   max-width: 100%;
   @include dflex();
+  overflow: hidden;
 
   @media (max-width: 960px) {
     overflow: hidden;

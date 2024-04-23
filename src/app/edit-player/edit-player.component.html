@@ -1,7 +1,7 @@
 <div class="profile-dialog">
     <h2 mat-dialog-title>Edit profile picture</h2>
     @for (pic of allProfilePictures; track pic; let i = $index) {
-    <img class="profile-picture" [mat-dialog-close]="pic" src="../../assets/img/profile/{{ pic }}" alt="">
+    <img class="profile-picture" [mat-dialog-close]="pic" src="assets/img/profile/{{ pic }}" alt="">
     }
     <mat-dialog-actions>
         <button mat-button (click)="dialogRef.close()">Close</button>
