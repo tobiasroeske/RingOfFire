@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   MatDialog,
@@ -39,13 +39,10 @@ export interface DialogData {
   styleUrl: './dialog-add-player.component.scss',
 })
 export class DialogAddPlayerComponent {
+  private gameService = inject(GameService);
+  public dialogRef = inject(MatDialogRef<DialogAddPlayerComponent>);
+  public data: DialogData = inject(MAT_DIALOG_DATA);
   name: string = '';
-
-  constructor(
-    private gameService: GameService,
-    public dialogRef: MatDialogRef<DialogAddPlayerComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {}
 
   onNoClick(): void {
     this.dialogRef.close();

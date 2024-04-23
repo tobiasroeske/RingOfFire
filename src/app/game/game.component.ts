@@ -6,6 +6,7 @@ import {
   OnChanges,
   OnInit,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 import { Game } from '../../models/game';
 import { ProfileComponent } from './profile/profile.component';
@@ -38,17 +39,15 @@ import { EditPlayerComponent } from '../edit-player/edit-player.component';
   styleUrl: './game.component.scss',
 })
 export class GameComponent {
+  public dialog = inject(MatDialog);
+  private gameService = inject(GameService);
+  private route = inject(ActivatedRoute);
+
   game!: SingleGame;
   gamesList: [] = [];
 
   gameId: string = '';
   gameOver: boolean = false;
-
-  constructor(
-    public dialog: MatDialog,
-    private gameService: GameService,
-    private route: ActivatedRoute,
-  ) { }
 
   ngOnInit(): void {
     this.newGame();
@@ -91,13 +90,13 @@ export class GameComponent {
 
   takeCard() {
     let game = this.getGame();
-    let playable = !game.pickCardAnimation && game.players.length > 0 && game.stack.length > 0;
+    let playable = !game.pickCardAnimation && game.players.length > 1 && game.stack.length > 0;
     if (game.stack.length == 0) {
       this.gameOver = true;
     }
     if (playable) {
      this.updateStack(game);
-    } else if (game.players.length == 0) {
+    } else if (game.players.length < 2) {
       this.openDialog();
     }
   }

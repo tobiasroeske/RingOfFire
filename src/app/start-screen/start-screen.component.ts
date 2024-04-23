@@ -12,15 +12,14 @@ import { GameService } from '../firebase-services/game.service';
   styleUrl: './start-screen.component.scss',
 })
 export class StartScreenComponent {
+  private gameService = inject(GameService);
+  public router = inject(Router);
   public gameID!: string;
-  constructor(private gameService: GameService, public router: Router) {}
-
-  offset = -130;
+ 
   async newGame() {
     let game = new Game();
     await this.gameService.addGame(game.toJson());
     this.gameID = this.gameService.gameId;
     this.router.navigateByUrl('/game/' + this.gameID);
-
   }
 }

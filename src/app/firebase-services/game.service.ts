@@ -1,14 +1,12 @@
 import { Injectable, OnDestroy, OnInit, inject } from '@angular/core';
 import { SingleGame } from '../interfaces/singleGame.interface';
 import {
-  DocumentReference,
   Firestore,
   addDoc,
   collection,
   doc,
   getDoc,
   onSnapshot,
-  setDoc,
   updateDoc,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
@@ -19,6 +17,7 @@ import { ActivatedRoute } from '@angular/router';
   providedIn: 'root',
 })
 export class GameService implements OnDestroy {
+  
   firestore: Firestore = inject(Firestore);
   games: SingleGame[] = [];
   unsubGames;
@@ -26,7 +25,7 @@ export class GameService implements OnDestroy {
   singleGame!: SingleGame;
   gameId: string = '';
 
-  constructor(private route: ActivatedRoute) {
+  constructor() {
     this.unsubGames = this.unsubGamesList();
   }
 
