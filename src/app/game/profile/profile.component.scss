@@ -1,12 +1,12 @@
 @import '../../../styles.scss';
 
 .profile {
-    width: 300px;
+    width: 200px;
     @include dflex($jc: flex-start, $g: 16px);
     border-top-left-radius: 50px;
     border-bottom-left-radius: 50px;
     >span {
-        font-size: 32px;
+        font-size: 24px;
     }
     background-color: rgb(50, 50, 50, 0.8);
     >img {

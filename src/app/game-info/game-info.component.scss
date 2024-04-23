@@ -1,0 +1,6 @@
+mat-card {
+  @media (max-width: 720px) {
+    position: relative;
+    min-height: 128px;
+  }
+}

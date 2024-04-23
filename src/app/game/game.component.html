@@ -1,29 +1,40 @@
 <div class="player-container">
     @for (player of getGame().players; track player; let i = $index) {
-        
-    <app-profile [playerName]="player" [playerActive]="i == getGame().currentPlayer"></app-profile>
+
+    <app-profile [playerImage]="getGame().playerImages" (click)="editPlayer(i)" [playerName]="player" [playerActive]="i == getGame().currentPlayer" class="hide-mobile"></app-profile>
     }
 </div>
 
-
-<div class="field">
-    <div class="card-stack">
-        @for (c of [0,1,2,3]; track c; let i = $index) {
-        <img [ngStyle]="{'right.px': i * 5}" src="assets/img/cards/red_back.png" alt="">
-        }
-        <img (click)="takeCard()" class="top-card" style="right: 20px" src="assets/img/cards/red_back.png" alt="">
-        @for (card of getGame().playedCards; track card; let i = $index) {
-        <img class="played-card" src="assets/img/cards/{{ card }}.png" alt="">
-        }
-        @if(getGame().pickCardAnimation) {
-        <img (click)="takeCard()" class="pick-card" style="right: 20px"
-            src="assets/img/cards/{{ getGame().currentCard }}.png" alt="">
-        }
-    </div>
+<div class="player-mobile-container">
+    @for (player of getGame().players; track player; let i = $index) {
+        <app-player-mobile [playerImage]="getGame().playerImages" (click)="editPlayer(i)"  [playerName]="player" [playerActive]="i == getGame().currentPlayer" class="hide-desktop"></app-player-mobile>
+    }
 </div>
 
-<button mat-fab color="primary" class="btn-add" (click)="openDialog()">
-    <mat-icon>add</mat-icon>
-</button>
+@if (!gameOver) {
+    <div class="field">
+        <div class="card-stack">
+            @for (c of [0,1,2,3]; track c; let i = $index) {
+            <img [ngStyle]="{ 'right.px': i * 5 }" src="assets/img/cards/red_back.png" alt="" />
+            }
+            <img (click)="takeCard()" class="top-card" style="right: 20px" src="assets/img/cards/red_back.png" alt="" />
+            @for (card of getGame().playedCards; track card; let i = $index) {
+            <img class="played-card" src="assets/img/cards/{{ card }}.png" alt="" />
+            } @if(getGame().pickCardAnimation) {
+            <img (click)="takeCard()" class="pick-card" style="right: 20px"
+                src="assets/img/cards/{{ getGame().currentCard }}.png" alt="" />
+            }
+        </div>
+    </div>
+    
+    <button mat-fab color="primary" class="btn-add" (click)="openDialog()">
+        <mat-icon>add</mat-icon>
+    </button>
+    
+    <app-game-info class="pin-bottom" [card]="getGame().currentCard"></app-game-info>
+} @else {
+    <div class="field">
+        <img class="gameOver-img" src="../../assets/img/gameover.png" alt="">
 
-<app-game-info class="pin-bottom" [card]="getGame().currentCard" ></app-game-info>
+    </div>
+}

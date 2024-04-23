@@ -1,30 +1,39 @@
-@import '../../styles.scss';
-
+@import "../../styles.scss";
 
 .start-screen {
-    width: 100vw;
+  width: 100vw;
+  height: 100vh;
+  background-color: #404040;
+  max-width: 100%;
+  @include dflex();
+
+  @media (max-width: 960px) {
+    overflow: hidden;
+  }
+
+  > img {
     height: 100vh;
-    background-color: #404040;
-    max-width: 100%;
-    @include dflex();
-    >img {
-        width: 100%;
-        height: 100vh;
-        max-width: 1024px;
-    }
+  }
 }
 
 .start-label-box {
-    cursor: pointer;
-    position: absolute;
-    bottom: 50px;
-    @include dflex();
-    >img {
-        width: 40vh;
-        height: auto;
+  cursor: pointer;
+  position: absolute;
+  bottom: 50px;
+  @include dflex();
+  > img {
+    width: 40vh;
+    height: auto;
 
-        &:hover {
-            filter: brightness(1.25);
-        }
+    @media (max-width: 960px) {
+      width: 400px;
     }
+    @media (max-width: 960px) {
+      width: 280px;
+    }
+
+    &:hover {
+      filter: brightness(1.25);
+    }
+  }
 }

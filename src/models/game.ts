@@ -5,13 +5,14 @@ import { SingleGame } from "../app/interfaces/singleGame.interface";
 export class Game implements SingleGame{
     public id?: string;
     public players: string[] = [];
+    public playerImages: string[] = [];
     public stack: string[] = [];
     public playedCards: string[] = [];
     public currentPlayer: number = 0;
     public currentCard: string = ''
     public pickCardAnimation: boolean = false;
     constructor() {
-        for (let i = 1; i < 14; i++) {
+        for (let i = 1; i < 14; i++) { 
             this.stack.push('spade_' + i);
             this.stack.push('clubs_' + i);
             this.stack.push('hearts_' + i);
@@ -23,6 +24,7 @@ export class Game implements SingleGame{
     public toJson() {
         return {
             players: this.players,
+            playerImages: this.playerImages,
             stack: this.stack,
             playedCards: this.playedCards,
             currentPlayer: this.currentPlayer,

@@ -1,0 +1,26 @@
+@import '../../styles.scss';
+
+.profile {
+    min-width: 80px;
+    max-width: 80px;
+    @include dflex($fd: column-reverse, $jc: center, $g: 8px);
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    padding-top: 8px;
+    >span {
+        font-size: 16px;
+    }
+    background-color: rgb(50, 50, 50, 0.8);
+    color: white;
+    >img {
+        width: 32px;
+        height: 32px;
+        object-fit: cover;
+        border-radius: 100%;
+    }
+}
+
+.player-active {
+    background-color: orange !important;
+    color: black;
+}
